@@ -1,6 +1,6 @@
 # GitHub PR Analyzer
 
-Lightweight FastAPI service that summarizes and analyzes GitHub pull requests using embeddings and an LLM.
+AI-powered github pull request analyzer.
 
 **Key files**
 - app/: application source
@@ -69,7 +69,4 @@ Open http://127.0.0.1:8000/docs for the API docs.
 - If `app.config` raises a ValueError on startup, confirm the required env vars are present in `.env`.
 - If embedding/LLM calls fail, confirm tokens and network access.
 
-If you'd like, I can:
-- pin dependency versions in `requirements.txt`,
-- add a Unix `scripts/setup_venv.sh`, or
-- create a small `.env.example` file.
+
