@@ -1,6 +1,12 @@
 import httpx
 from fastapi import HTTPException
 import asyncio
+from app.services.cache_service import repo_context_cache
+
+
+
+def build_cache_key(owner: str, repo: str):
+    return f"{owner}/{repo}"
 
 
 
@@ -73,6 +79,12 @@ async def get_repo_structure(github_token: str, owner: str, repo: str):
 
 
 async def get_repo_context(github_token: str, owner: str, repo: str):
+
+    key = build_cache_key(owner, repo)
+
+    if key in repo_context_cache:
+        return repo_context_cache[key]
+    
     readme,structure = await asyncio.gather(
         get_repo_readme(github_token, owner, repo),
         get_repo_structure(github_token, owner, repo)
@@ -90,5 +102,12 @@ async def get_repo_context(github_token: str, owner: str, repo: str):
 
     if not context_parts:
         return None
+    
+    final_context = "\n\n".join(context_parts)
 
-    return "\n\n".join(context_parts) 
+    
+    repo_context_cache[key] = final_context
+
+    return final_context 
+
+
